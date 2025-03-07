@@ -16,5 +16,3 @@ def bubble_sort(array)
   end
   return array
 end
-
-bubble_sort([20,17,15,12,11,8,6,3,1])
