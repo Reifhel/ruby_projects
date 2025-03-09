@@ -10,3 +10,7 @@ Each project has a readme with a description of the problem and Knowledge acquir
 * [Sub Strings](https://github.com/Reifhel/ruby_basic_projects/tree/main/substrings)
 * [Stock Picker](https://github.com/Reifhel/ruby_basic_projects/tree/main/stock_picker)
 * [Bubble Sort](https://github.com/Reifhel/ruby_basic_projects/tree/main/bubble_sort)
+
+## OOP Projects
+
+* [TIC TAC TOE](https://github.com/Reifhel/ruby_basic_projects/tree/main/tic_tac_toe)
