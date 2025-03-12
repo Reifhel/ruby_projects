@@ -1,6 +1,6 @@
 # The core of game logic used in player and computer solver
 module GameLogic
-  COLORS = ['purple', 'green', 'red', 'blue', 'white', 'yellow'].freeze
+  COLORS = %w[purple green red blue white yellow].freeze
 
   def solved?(code, guess)
     code == guess
@@ -19,7 +19,7 @@ module GameLogic
     exact = 0
     code.each_with_index do |item, i|
       next unless guess[i] == item
-      
+
       exact += 1
       code[i] = "*"
       guess[i] = "*"
@@ -39,6 +39,4 @@ module GameLogic
     end
     right
   end
-
-
 end

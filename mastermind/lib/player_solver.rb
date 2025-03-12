@@ -1,9 +1,8 @@
-require_relative 'game_logic.rb'
-require_relative 'display.rb'
+require_relative "game_logic"
+require_relative "display"
 
 # This class contains the logic by the human solving the code
 class PlayerSolver
-  
   include GameLogic
   include Display
 
@@ -11,14 +10,14 @@ class PlayerSolver
   attr_accessor :guess, :turn
 
   def initialize
-    @computer_code = self.set_random_code
+    @computer_code = set_random_code
     @guess = nil
   end
 
   def player_start
     puts "The player now has to break the code!"
-    self.turn_order
-    self.player_end_game(@computer_code, @guess)
+    turn_order
+    player_end_game(@computer_code, @guess)
   end
 
   def turn_order
@@ -28,32 +27,32 @@ class PlayerSolver
       self.guess = player_input
       turn += 1
 
-      break if solved?(self.computer_code, self.guess)
+      break if solved?(computer_code, guess)
 
       turn_end
     end
   end
 
   def turn_messages(turn)
-    puts turn_message('guess_prompt', turn)
+    puts turn_message("guess_prompt", turn)
     puts "LAST TURN!" if turn == 12
   end
 
   def turn_end
-    compare(self.computer_code, self.guess)
-    show_clues(exact_number, same_number, self.guess)
+    compare(computer_code, guess)
+    show_clues(exact_number, same_number, guess)
   end
 
   def player_end_game(code, guess)
     if solved?(code, guess)
-      puts end_game_message('player_won')
+      puts end_game_message("player_won")
     else
-      puts end_game_message('player_lose')
-      puts "The code was: (#{code.join(", ")})"
+      puts end_game_message("player_lose")
+      puts "The code was: (#{code.join(', ')})"
     end
   end
 
-  private 
+  private
 
   def set_random_code
     code = []
@@ -62,14 +61,12 @@ class PlayerSolver
   end
 
   def player_input
-    input = gets.chomp.downcase.split(" ")
-
+    input = gets.chomp.downcase.split
     if input.length == 4
-      if input.all? {|value| GameLogic::COLORS.include?(value)}
-        return input
-      else
-        puts message("value_not_found")
-      end
+      return input if input.all? { |value| GameLogic::COLORS.include?(value) }
+
+      puts message("value_not_found")
+
     else
       puts message("len_error")
     end
