@@ -8,10 +8,10 @@ class PlayerSolver
   include Display
 
   attr_reader :computer_code, :exact_number, :same_number
-  attr_accessor :guess
+  attr_accessor :guess, :turn
 
   def initialize
-    @computer_code = self.set_code
+    @computer_code = self.set_random_code
     @guess = nil
   end
 
@@ -24,8 +24,8 @@ class PlayerSolver
   def turn_order
     turn = 1
     while turn <= 12
-      turn_message(turn)
-      @guess = player_input
+      turn_messages(turn)
+      self.guess = player_input
       turn += 1
 
       break if solved?(self.computer_code, self.guess)
@@ -34,8 +34,8 @@ class PlayerSolver
     end
   end
 
-  def turn_message(turn)
-    puts "Turn ##{turn} - Type 4 colours in #{GameLogic::COLORS} to guess the code:"
+  def turn_messages(turn)
+    puts turn_message('guess_prompt', turn)
     puts "LAST TURN!" if turn == 12
   end
 
@@ -46,15 +46,16 @@ class PlayerSolver
 
   def player_end_game(code, guess)
     if solved?(code, guess)
-      puts("You solved the code! Congrats!")
+      puts end_game_message('player_won')
     else
-      puts "game over!, the code was #{code}"
+      puts end_game_message('player_lose')
+      puts "The code was: (#{code.join(", ")})"
     end
   end
 
   private 
 
-  def set_code
+  def set_random_code
     code = []
     4.times { code.push(GameLogic::COLORS.sample) }
     code
@@ -67,10 +68,10 @@ class PlayerSolver
       if input.all? {|value| GameLogic::COLORS.include?(value)}
         return input
       else
-        puts "Entrada invalida: um dos valores não bate com as cores"
+        puts message("value_not_found")
       end
     else
-      puts "Entrada invalida: menos de 4 valores"
+      puts message("len_error")
     end
 
     player_input

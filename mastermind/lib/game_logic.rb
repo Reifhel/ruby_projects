@@ -11,7 +11,7 @@ module GameLogic
     temp_guess = guess.clone
 
     @exact_number = exact_matches(temp_code, temp_guess)
-    @same_number = rigth_matches(temp_code, temp_guess)
+    @same_number = right_matches(temp_code, temp_guess)
     @total_number = exact_number + same_number
   end
 
@@ -27,7 +27,7 @@ module GameLogic
     exact
   end
 
-  def rigth_matches(code, guess)
+  def right_matches(code, guess)
     right = 0
     guess.each_index do |i|
       next unless guess[i] != "*" && code.include?(guess[i])
