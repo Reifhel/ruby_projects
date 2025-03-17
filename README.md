@@ -15,3 +15,8 @@ Each project has a readme with a description of the problem and Knowledge acquir
 
 * [TIC TAC TOE](https://github.com/Reifhel/ruby_basic_projects/tree/main/tic_tac_toe)
 * [Mastermind](https://github.com/Reifhel/ruby_projects/tree/main/mastermind)
+
+## Files and Serialization
+
+* [Event Manager](https://github.com/Reifhel/ruby_projects/tree/main/event_manager)
+* [Hangman]()
