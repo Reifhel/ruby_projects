@@ -23,4 +23,3 @@ For this is project i used Ruby, file read and write, google-api gem, ERB templa
 * CSV manipulation
 * Use google-api gem
 * ERB templates
-* Create templates using erb
