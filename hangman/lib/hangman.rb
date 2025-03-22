@@ -1,91 +1,110 @@
-require_relative 'display.rb'
+require_relative "display"
+require_relative "game_loader"
+require "yaml"
 
 # Class for the game Hangman
 class Hangman
-
   include Display
+  include GameLoader
 
   attr_reader :dictionary
   attr_accessor :guessed_letters, :secret_word, :guess, :lifes
 
   def initialize
-    @dictionary = self.load_dictionary
-    @guessed_letters = Array.new()
+    @dictionary = load_dictionary
+    @guessed_letters = []
     @lifes = 5
     @secret_word = nil
     @guess = nil
   end
 
-  def load_dictionary
-    word_dict = File.read('dictionary.txt').split("\n")
-    # Getting olny words between 5 and 12 letters
-    word_dict.select{ |word| word.length.between?(5,12)}
+  def setup_game
+    puts intructions
+    begin
+      game_mode = gets.chomp
+      return reset_game if game_mode == "1" # Create a new game
+      return load_game if game_mode == "2" # load a saved game
+
+      raise "Invalid input: #{guess}"
+    rescue StandardError => e
+      puts e
+      retry
+    end
   end
 
-  def game_start
-    puts intructions
+  def game_start # rubocop:disable Metrics/MethodLength
     setup_game
-    until self.secret_word == self.guess.join or self.lifes <= 0
-      p self.secret_word
-      puts show_game_info(self.lifes, self.guess, self.guessed_letters)
 
-      game_turn
+    until over?
+      puts show_game_info(lifes, guess, guessed_letters)
+      puts input_message
+      input = player_input
+      if input == "save"
+        save_game
+        break
+      end
+
+      game_turn(input)
 
     end
-    game_end
+    game_end if over?
+  end
+
+  def over?
+    (secret_word == guess.join) || (lifes <= 0)
   end
 
   def game_end
-    if self.secret_word == self.guess.join
-      puts end_game_message("win", self.secret_word)
+    if secret_word == guess.join
+      puts end_game_message("win", secret_word)
     else
-      puts end_game_message("lose", self.secret_word)
+      puts end_game_message("lose", secret_word)
     end
   end
 
-  def game_turn
-    puts "Choose a letter"
-    input = player_input
-    if self.secret_word.include?(input)
+  def game_turn(input)
+    if secret_word.include?(input)
       check_guess(input)
     else
       self.lifes -= 1
     end
-    self.guessed_letters << input
+    guessed_letters << input
   end
 
   def check_guess(input)
-    secret_word_split = self.secret_word.split("")
+    secret_word_split = secret_word.chars
     secret_word_split.each_with_index do |letter, i|
-      if letter == input
-        self.guess[i] = input
-      end
+      guess[i] = input if letter == input
     end
   end
 
-  def setup_game
-    self.guessed_letters = Array.new
-    self.secret_word = self.dictionary.sample
-    self.guess = Array.new(self.secret_word.length, "_")
+  def reset_game
+    self.guessed_letters = []
+    self.secret_word = dictionary.sample
+    self.guess = Array.new(secret_word.length, "_")
     self.lifes = 5
   end
 
-  def player_input
+  def player_input # rubocop:disable Metrics/MethodLength
     input = gets.chomp.downcase
-    unless self.guessed_letters.include?(input)
-      if input.length == 1
-        return input if input.match?(/[a-z]/) # Verifica se é uma letra de 'a' a 'z'
-        
-        puts error_game_message("invalid_input")
-      else
-        puts error_game_message("len_error")
-      end
-    else
+    return "save" if input == "save"
+
+    if guessed_letters.include?(input)
       puts error_game_message("already_choosed")
+    elsif input.length == 1
+      return input if input.match?(/[a-z]/) # Verifica se é uma letra de 'a' a 'z'
+
+      puts error_game_message("invalid_input")
+    else
+      puts error_game_message("len_error")
     end
-  
+
     player_input
   end
-  
 
+  def load_dictionary
+    word_dict = File.read("dictionary.txt").split("\n")
+    # Getting olny words between 5 and 12 letters
+    word_dict.select { |word| word.length.between?(5, 12) }
+  end
 end

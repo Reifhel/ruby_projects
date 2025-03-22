@@ -1,0 +1,6 @@
+---
+secret_word: needle
+guess: ______
+guessed_letters:
+- a
+lifes: 4
