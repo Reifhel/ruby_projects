@@ -24,3 +24,4 @@ Each project has a readme with a description of the problem and Knowledge acquir
 ## Computer Science Projects
 
 * [Recursion (Fibonacci and Merge Sort)](https://github.com/Reifhel/ruby_projects/tree/main/recursion)
+* [Linked List](https://github.com/Reifhel/ruby_projects/tree/main/linked_list)
