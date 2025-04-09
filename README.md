@@ -19,4 +19,8 @@ Each project has a readme with a description of the problem and Knowledge acquir
 ## Files and Serialization
 
 * [Event Manager](https://github.com/Reifhel/ruby_projects/tree/main/event_manager)
-* [Hangman]()
+* [Hangman](https://github.com/Reifhel/ruby_projects/tree/main/hangman)
+
+## Computer Science Projects
+
+* [Recursion (Fibonacci and Merge Sort)](https://github.com/Reifhel/ruby_projects/tree/main/recursion)
